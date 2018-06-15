@@ -7,12 +7,14 @@
  * This ball is controlled by the player using the mouse and the keyboard
  */
 class PlayerBall : public cocos2d::DrawNode, util::Factory<PlayerBall> {
-	static constexpr float speedCoef = 1;
+	static constexpr float speedCoef    = 1;
 	static constexpr float maxMouseDist = 100;
-	static constexpr float density = 1;
+	static constexpr float density      = 10;
 
-	cocos2d::Vec2 _speed = cocos2d::Vec2::ZERO;
+	cocos2d::Vec2 _speed          = cocos2d::Vec2::ZERO;
+	cocos2d::Vec2 _mousePosInView = cocos2d::Vec2::ZERO;
 	float         _mass;
+	cocos2d::DrawNode * _mouseViewer;
 
 public:
 	using util::Factory<PlayerBall>::create;

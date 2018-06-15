@@ -13,17 +13,18 @@ bool PlayerBall::init(float mass, Color4F const & color) {
 	drawDot(Vec2::ZERO, radius, color);
 
 	// debug mouse node
-	auto mouseViewer = DrawNode::create();
-	mouseViewer->drawDot(Vec2::ZERO, 10, {1, 0, 0, 1});
-	addChild(mouseViewer);
+	_mouseViewer = DrawNode::create();
+	_mouseViewer->drawDot(Vec2::ZERO, 10, {1, 0, 0, 1});
+	addChild(_mouseViewer);
 
+	// Save the mouse position on the view
 	auto elm = EventListenerMouse::create();
-	elm->onMouseMove = [this, mouseViewer] (EventMouse * em) {
-		Vec2 mousePos = convertToNodeSpace(em->getLocationInView());
-		std::cout << mousePos.x << ' ' << mousePos.y << std::endl;
-		mouseViewer->setPosition(mousePos);
+	elm->onMouseMove = [this] (EventMouse * em) {
+		_mousePosInView = em->getLocationInView();
 	};
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(elm, mouseViewer);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(elm, this);
+
+	scheduleUpdate();
 
 	return true;
 }
@@ -31,5 +32,15 @@ bool PlayerBall::init(float mass, Color4F const & color) {
 
 void PlayerBall::update(float dt) {
 	DrawNode::update(dt);
-	setPosition(getPosition() + _speed);
+
+	// Compute speed vector from mouse position
+	_speed = convertToNodeSpace(_mousePosInView);
+	_mouseViewer->setPosition(_speed);
+
+	if (_speed.lengthSquared() > maxMouseDist * maxMouseDist) {
+		_speed.normalize();
+		_speed *= maxMouseDist;
+	}
+	_speed *= speedCoef;
+	setPosition(getPosition() + _speed * dt);
 }
