@@ -6,7 +6,7 @@
 using namespace cocos2d;
 
 bool PlayerBall::init(float mass, Color4F const & color) {
-	if (!DrawNode::init()) return false;
+	if(!DrawNode::init()) return false;
 
 	_mass = mass;
 	float radius = density * std::sqrt(_mass);
@@ -37,7 +37,7 @@ void PlayerBall::update(float dt) {
 	_speed = convertToNodeSpace(_mousePosInView);
 	_mouseViewer->setPosition(_speed);
 
-	if (_speed.lengthSquared() > maxMouseDist * maxMouseDist) {
+	if(_speed.lengthSquared() > maxMouseDist * maxMouseDist) {
 		_speed.normalize();
 		_speed *= maxMouseDist;
 	}
