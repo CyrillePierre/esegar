@@ -4,9 +4,9 @@ namespace detail {
 
 template <class T, class... Args>
 struct FactoryImpl {
-	static T * create(Args &&... args) {
+	static T * create(Args... args) {
 		T * t = new(std::nothrow) T;
-		if (t && t->init(std::forward<Args>(args)...)) {
+		if (t && t->init(args...)) {
 			t->autorelease();
 			return t;
 		}

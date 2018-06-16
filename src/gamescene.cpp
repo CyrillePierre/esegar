@@ -8,12 +8,14 @@ using namespace cocos2d;
 bool GameScene::init() {
 	if(!Scene::init()) return false;
 
+	Size fieldSize{2000, 2000};
+
 	// the root node of all game elements
 	auto field = Node::create();
-	field->setContentSize(getContentSize());
+	field->setContentSize(fieldSize);
 	addChild(field);
 
-	auto background = Factory<Background>::create({1000, 600}, 50);
+	auto background = Factory<Background>::create(fieldSize, 50);
 	background->setPositionNormalized({.5, .5});
 	field->addChild(background);
 
@@ -21,9 +23,10 @@ bool GameScene::init() {
 	playerball->setPositionNormalized({.5, .5});
 	field->addChild(playerball);
 
-	field->schedule([this, field, playerball] (float dt) {
-		static Vec2 const halfSize = this->getContentSize() / 2;
-		field->setPosition(halfSize - playerball->getPosition());
+	// the player ball is always on the center of the screen
+	Vec2 halfScreenSize = getContentSize() / 2;
+	field->schedule([=] (float dt) {
+		field->setPosition(halfScreenSize - playerball->getPosition());
 	}, "camera_center");
 
 	return true;
