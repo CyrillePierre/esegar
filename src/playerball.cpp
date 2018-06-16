@@ -8,9 +8,8 @@ using namespace cocos2d;
 bool PlayerBall::init(float mass, Color4F const & color) {
 	if(!DrawNode::init()) return false;
 
-	_mass = mass;
-	float radius = density * std::sqrt(_mass);
-	drawDot(Vec2::ZERO, radius, color);
+	setMass(mass);
+	drawDot(Vec2::ZERO, _radius, color);
 
 	// debug mouse node
 	_mouseViewer = DrawNode::create();
@@ -30,17 +29,38 @@ bool PlayerBall::init(float mass, Color4F const & color) {
 }
 
 
+void PlayerBall::setMass(float m) {
+	_mass = m;
+	_radius = density * std::sqrt(_mass);
+ }
+
+
 void PlayerBall::update(float dt) {
 	DrawNode::update(dt);
 
 	// Compute speed vector from mouse position
-	_speed = convertToNodeSpace(_mousePosInView);
-	_mouseViewer->setPosition(_speed);
+	Vec2 speed = convertToNodeSpace(_mousePosInView);
+	_mouseViewer->setPosition(speed);
 
-	if(_speed.lengthSquared() > maxMouseDist * maxMouseDist) {
-		_speed.normalize();
-		_speed *= maxMouseDist;
+	if(speed.lengthSquared() > maxMouseDist * maxMouseDist) {
+		speed.normalize();
+		speed *= maxMouseDist;
 	}
-	_speed *= speedCoef;
-	setPosition(getPosition() + _speed * dt);
+	speed *= speedCoef;
+	moveWithConstraints(speed * dt);
+}
+
+
+void PlayerBall::moveWithConstraints(Vec2 dp) {
+	Vec2 const hFieldSize = getParent()->getContentSize() / 2;
+	float sRadius = _radius - 15;
+	Vec2 newPos = getPosition() + dp;
+
+	// the ball cannot move out of the field
+	if (newPos.x + sRadius > hFieldSize.x) newPos.x = hFieldSize.x - sRadius;
+	else if (newPos.x - sRadius < -hFieldSize.x) newPos.x = -hFieldSize.x + sRadius;
+	if (newPos.y + sRadius > hFieldSize.y) newPos.y = hFieldSize.y - sRadius;
+	else if (newPos.y - sRadius < -hFieldSize.y) newPos.y = -hFieldSize.y + sRadius;
+
+	setPosition(newPos);
 }

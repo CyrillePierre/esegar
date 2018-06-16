@@ -1,3 +1,4 @@
+#include <iostream>
 #include "gamescene.hpp"
 #include "playerball.hpp"
 #include "background.hpp"
@@ -16,7 +17,7 @@ bool GameScene::init() {
 	addChild(field);
 
 	auto background = Factory<Background>::create(fieldSize, 50);
-	background->setPositionNormalized({.5, .5});
+//	background->setPositionNormalized({.5, .5});
 	field->addChild(background);
 
 	auto playerball = Factory<PlayerBall>::create(10, {.8, .7, .2, 1});
@@ -28,6 +29,9 @@ bool GameScene::init() {
 	field->schedule([=] (float dt) {
 		field->setPosition(halfScreenSize - playerball->getPosition());
 	}, "camera_center");
+
+	Vec2 a = field->getAnchorPoint();
+	std::cout << "### " << a.x << ' ' << a.y << std::endl;
 
 	return true;
 }
