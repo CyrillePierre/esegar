@@ -51,7 +51,7 @@ void PlayerBall::update(float dt) {
 		speed.normalize();
 		speed *= maxMouseDist;
 	}
-	speed *= speedCoef;
+	speed *= speedCoef / std::pow(_mass, .3f);
 	moveWithConstraints(speed * dt);
 }
 
@@ -81,9 +81,7 @@ void PlayerBall::eat() {
 		if((getPosition() - food->getPosition()).getLengthSq() < _radius * _radius) {
 			float dmass = food->getContentSize().width / 2 ;
 			dmass *= dmass * density;
-			std::cout << "dmass = " << dmass << std::endl;
 			mass += dmass;
-			std::cout << "mass = " << mass << std::endl;
 			removeList.push_back(food);
 		}
 	}
