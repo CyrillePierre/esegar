@@ -14,7 +14,6 @@ class PlayerBall : public cocos2d::DrawNode {
 	cocos2d::Vec2       _mousePosInView = cocos2d::Vec2::ZERO;
 	float               _mass;
 	float               _radius;
-	cocos2d::DrawNode * _mouseViewer;
 	cocos2d::Color4F    _color;
 
 public:

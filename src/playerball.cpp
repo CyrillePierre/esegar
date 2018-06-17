@@ -11,11 +11,6 @@ bool PlayerBall::init(float mass, Color4F const & color) {
 	_color = color;
 	setMass(mass);
 
-	// debug mouse node
-	_mouseViewer = DrawNode::create();
-	_mouseViewer->drawDot(Vec2::ZERO, 10, {1, 0, 0, 1});
-	addChild(_mouseViewer);
-
 	// Save the mouse position on the view
 	auto elm = EventListenerMouse::create();
 	elm->onMouseMove = [this] (EventMouse * em) {
@@ -45,8 +40,6 @@ void PlayerBall::update(float dt) {
 
 	// Compute speed vector from mouse position
 	Vec2 speed = convertToNodeSpace(_mousePosInView);
-	_mouseViewer->setPosition(speed);
-
 	if(speed.lengthSquared() > maxMouseDist * maxMouseDist) {
 		speed.normalize();
 		speed *= maxMouseDist;
