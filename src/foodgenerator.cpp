@@ -13,7 +13,8 @@ bool FoodGenerator::init(Node * foods) {
 
 		auto food = DrawNode::create();
 		food->setContentSize({radius * 2, radius * 2});
-		food->drawDot(pos, radius, color);
+		food->drawDot(Vec2::ZERO, radius, color);
+		food->setPosition(pos);
 		getParent()->getChildByName("foods")->addChild(food);
 	}, .1, "gen");
 

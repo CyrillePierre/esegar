@@ -6,7 +6,7 @@
  * This ball is controlled by the player using the mouse and the keyboard
  */
 class PlayerBall : public cocos2d::DrawNode {
-	static constexpr float speedCoef    = 2;
+	static constexpr float speedCoef    = 3;
 	static constexpr float maxMouseDist = 100;
 	static constexpr float density      = 10;
 	static constexpr float boxOffset    = 15;
@@ -15,6 +15,7 @@ class PlayerBall : public cocos2d::DrawNode {
 	float               _mass;
 	float               _radius;
 	cocos2d::DrawNode * _mouseViewer;
+	cocos2d::Color4F    _color;
 
 public:
     bool init(float mass, cocos2d::Color4F const & color);
@@ -23,4 +24,5 @@ public:
 private:
 	void setMass(float m);
 	void moveWithConstraints(cocos2d::Vec2 dp);
+	void eat();
 };
