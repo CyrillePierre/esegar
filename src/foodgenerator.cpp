@@ -24,6 +24,6 @@ bool FoodGenerator::init(Node * foods) {
 			EaseSineInOut::create(ScaleTo::create(time, 1.2f)),
 			EaseSineInOut::create(ScaleTo::create(time, .8f)), nullptr)));
 		
-	}, .1, "gen");
+	}, .2, "gen");
 
 }

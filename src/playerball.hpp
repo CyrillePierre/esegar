@@ -1,27 +1,14 @@
 #pragma once
 
-#include <2d/CCDrawNode.h>
+#include "ball.hpp"
 
 /**
  * This ball is controlled by the player using the mouse and the keyboard
  */
-class PlayerBall : public cocos2d::DrawNode {
-	static constexpr float speedCoef    = 9;
-	static constexpr float maxMouseDist = 100;
-	static constexpr float density      = .03;
-	static constexpr float boxOffset    = 15;
-
+class PlayerBall : public Ball {
 	cocos2d::Vec2       _mousePosInView = cocos2d::Vec2::ZERO;
-	float               _mass;
-	float               _radius;
-	cocos2d::Color4F    _color;
 
 public:
-    bool init(float mass, cocos2d::Color4F const & color);
-	virtual void update(float dt);
-
-private:
-	void setMass(float m);
-	void moveWithConstraints(cocos2d::Vec2 dp);
-	void eat();
+	bool init(float mass, cocos2d::Color4F const & color);
+	virtual void move(float dt);
 };
