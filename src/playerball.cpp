@@ -31,7 +31,7 @@ bool PlayerBall::init(float mass, Color4F const & color) {
 
 void PlayerBall::setMass(float m) {
 	_mass = m;
-	_radius = density * std::sqrt(_mass);
+	_radius = std::sqrt(_mass / density);
 
 	clear();
 	drawDot(Vec2::ZERO, _radius, _color);
@@ -80,8 +80,10 @@ void PlayerBall::eat() {
 	for(auto food : foods) {
 		if((getPosition() - food->getPosition()).getLengthSq() < _radius * _radius) {
 			float dmass = food->getContentSize().width / 2 ;
-			dmass *= dmass / density;
+			dmass *= dmass * density;
+			std::cout << "dmass = " << dmass << std::endl;
 			mass += dmass;
+			std::cout << "mass = " << mass << std::endl;
 			removeList.push_back(food);
 		}
 	}

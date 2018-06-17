@@ -8,7 +8,7 @@
 class PlayerBall : public cocos2d::DrawNode {
 	static constexpr float speedCoef    = 3;
 	static constexpr float maxMouseDist = 100;
-	static constexpr float density      = 10;
+	static constexpr float density      = .01;
 	static constexpr float boxOffset    = 15;
 
 	cocos2d::Vec2       _mousePosInView = cocos2d::Vec2::ZERO;
