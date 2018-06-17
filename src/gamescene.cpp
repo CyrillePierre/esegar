@@ -4,6 +4,7 @@
 #include "background.hpp"
 #include "foodgenerator.hpp"
 #include "util/factory.hpp"
+#include "aiball.hpp"
 
 using namespace cocos2d;
 
@@ -24,19 +25,29 @@ bool GameScene::init() {
 
 	auto foods = Node::create();
 	field->addChild(foods, 0, "foods");
-
 	auto foodGenerator = Factory<FoodGenerator>::create(foods);
 	field->addChild(foodGenerator);
 
+	auto balls = Node::create();
+	balls->setContentSize(fieldSize);
+	field->addChild(balls, 1, "balls");
+
 	auto playerball = Factory<PlayerBall>::create(10, {.8, .7, .2, 1});
-	playerball->setPositionNormalized({.5, .5});
-	field->addChild(playerball);
+	balls->addChild(playerball);
 
 	// the player ball is always on the center of the screen
 	Vec2 halfScreenSize = getContentSize() / 2;
 	field->schedule([=] (float dt) {
 		field->setPosition(halfScreenSize - playerball->getPosition());
 	}, "camera_center");
+
+	// create enemies
+	for(int i = 0; i < 10; ++i) {
+		Color4F color{rand_0_1(), rand_0_1(), rand_0_1(), 1};
+		auto aiball = Factory<AiBall>::create(random(50, 150), color);
+		balls->addChild(aiball);
+		aiball->setPositionNormalized({random(-.5f, .5f), random(-.5f, .5f)});
+	}
 
 	return true;
 }

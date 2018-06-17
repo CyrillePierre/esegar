@@ -15,11 +15,11 @@ struct FactoryImpl {
 	}
 };
 
-template <class T>
+template <class T, class Fn>
 struct FactoryHelper;
 
-template <class T, class... Args>
-struct FactoryHelper<bool (T::*)(Args...)> {
+template <class T, class U, class... Args>
+struct FactoryHelper<T, bool (U::*)(Args...)> {
     using type = FactoryImpl<T, Args...>;
 };
 
@@ -31,4 +31,4 @@ struct FactoryHelper<bool (T::*)(Args...)> {
  * This class must be used as a parent class in a CRTP.
  */
 template <class T>
-struct Factory : detail::FactoryHelper<decltype(&T::init)>::type {};
+struct Factory : detail::FactoryHelper<T, decltype(&T::init)>::type {};

@@ -45,7 +45,9 @@ void Ball::moveWithConstraints(Vec2 dp) {
 
 
 void Ball::eat() {
-	Vector<Node*> const & foods = getParent()->getChildByName("foods")->getChildren();
+	Node * foodsNode = getParent()->getParent()->getChildByName("foods");
+	if (!foodsNode) return;
+	Vector<Node*> const & foods = foodsNode->getChildren();
 	float mass = _mass;
 	std::vector<Node*> removeList;
 
