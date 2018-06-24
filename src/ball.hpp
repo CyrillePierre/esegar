@@ -11,6 +11,7 @@ protected:
 	static constexpr float maxMouseDist = 100;
 	static constexpr float density      = .03;
 	static constexpr float boxOffset    = 15;
+	static constexpr float eatMaxScale  = .75;
 
 	float               _mass;
 	float               _radius;
@@ -25,4 +26,5 @@ protected:
 	void setMass(float m);
 	void moveWithConstraints(cocos2d::Vec2 dp);
 	void eat();
+	void eatEnemies();
 };

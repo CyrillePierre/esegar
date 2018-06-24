@@ -38,6 +38,7 @@ bool GameScene::init() {
 	// the player ball is always on the center of the screen
 	Vec2 halfScreenSize = getContentSize() / 2;
 	field->schedule([=] (float dt) {
+		if (!playerball->isRunning()) return;
 		field->setPosition(halfScreenSize - playerball->getPosition());
 	}, "camera_center");
 

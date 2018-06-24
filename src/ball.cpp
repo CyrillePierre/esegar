@@ -25,8 +25,10 @@ void Ball::setMass(float m) {
 void Ball::update(float dt) {
 	DrawNode::update(dt);
 	eat();
+	eatEnemies();
 	move(dt);
 }
+
 
 
 void Ball::moveWithConstraints(Vec2 dp) {
@@ -58,6 +60,29 @@ void Ball::eat() {
 			dmass *= dmass * density;
 			mass += dmass;
 			removeList.push_back(food);
+		}
+	}
+
+	for (auto node : removeList) node->removeFromParent();
+
+	setMass(mass);
+}
+
+
+void Ball::eatEnemies() {
+	Node * ballsNode = getParent();
+	if (!ballsNode) return;
+	Vector<Node*> const & balls = ballsNode->getChildren();
+	float mass = _mass;
+	std::vector<Node*> removeList;
+
+	for(auto node : balls) {
+		auto ball = static_cast<Ball*>(node);
+		if(ball->_radius < eatMaxScale * _radius
+			&& (getPosition() - ball->getPosition()).getLengthSq() < _radius * _radius)
+		{
+			mass += ball->_mass;
+			removeList.push_back(node);
 		}
 	}
 
