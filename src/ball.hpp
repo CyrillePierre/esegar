@@ -22,6 +22,9 @@ public:
 	virtual void update(float dt);
 	virtual void move(float dt) = 0;
 
+	float radius() const { return _radius; }
+	float mass() const { return _mass; }
+
 protected:
 	void setMass(float m);
 	void moveWithConstraints(cocos2d::Vec2 dp);

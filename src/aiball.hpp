@@ -3,6 +3,8 @@
 #include "ball.hpp"
 
 class AiBall : public Ball {
+	static constexpr float sightRange = 1000;
+
 	cocos2d::Vec2 _speed;
 
 public:
