@@ -32,14 +32,15 @@ bool GameScene::init() {
 	balls->setContentSize(fieldSize);
 	field->addChild(balls, 1, "balls");
 
-	auto playerball = Factory<PlayerBall>::create(10, {.8, .7, .2, 1});
-	balls->addChild(playerball);
+	_playerball = Factory<PlayerBall>::create(10, {.8, .7, .2, 1});
+	balls->addChild(_playerball);
+	_playerball->retain(); // increment smart ptr ref for the next lambda
 
 	// the player ball is always on the center of the screen
 	Vec2 halfScreenSize = getContentSize() / 2;
 	field->schedule([=] (float dt) {
-		if (!playerball->isRunning()) return;
-		field->setPosition(halfScreenSize - playerball->getPosition());
+		if (!_playerball->getParent()) return;
+		field->setPosition(halfScreenSize - _playerball->getPosition());
 	}, "camera_center");
 
 	// create enemies

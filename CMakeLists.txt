@@ -28,6 +28,7 @@ cmake_minimum_required(VERSION 3.1)
 set(APP_NAME esegar)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
 project(${APP_NAME})
 

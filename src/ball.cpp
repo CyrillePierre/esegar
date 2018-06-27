@@ -16,6 +16,7 @@ bool Ball::init(float mass, Color4F const & color) {
 void Ball::setMass(float m) {
 	_mass = m;
 	_radius = std::sqrt(_mass / density);
+	setLocalZOrder(_mass);
 
 	clear();
 	drawDot(Vec2::ZERO, _radius, _color);

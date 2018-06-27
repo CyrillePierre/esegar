@@ -22,7 +22,7 @@ void AiBall::move(float dt) {
 		Vec2 dist = ball->getPosition() - pos;
 		dist -= ball->radius() * dist.getNormalized();
 		if(dist.getLengthSq() < sightRange * sightRange) {
-			Vec2 ds = 1.5e6 * dist.getNormalized() / dist.lengthSquared();
+			Vec2 ds = 1e5 * dist.getNormalized() / dist.length();
 			if (ball->radius() < _radius * eatMaxScale)
 				_speed += ds;
 			else if (ball->radius() * eatMaxScale > _radius)
